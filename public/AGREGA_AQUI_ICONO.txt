@@ -1,0 +1,9 @@
+Coloca en esta carpeta tu imagen con este nombre exacto:
+
+icono.png
+
+Ruta final:
+public/icono.png
+
+Se usará como icono de la pestaña del navegador y como icono al guardar la página en un celular.
+Recomendación: imagen PNG cuadrada de 512 x 512 píxeles.

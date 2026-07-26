@@ -1,0 +1,13 @@
+COLOCA AQUI TUS ARCHIVOS MP3 CON ESTOS NOMBRES EXACTOS:
+
+sol.mp3
+mercurio.mp3
+venus.mp3
+tierra.mp3
+marte.mp3
+jupiter.mp3
+saturno.mp3
+urano.mp3
+neptuno.mp3
+
+Usa letras minusculas y no agregues acentos a los nombres de archivo.

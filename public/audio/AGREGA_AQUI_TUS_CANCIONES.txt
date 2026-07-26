@@ -1,0 +1,17 @@
+COLOCA EN ESTA CARPETA LOS SIGUIENTES ARCHIVOS MP3:
+
+sol.mp3
+mercurio.mp3
+venus.mp3
+tierra.mp3
+marte.mp3
+jupiter.mp3
+saturno.mp3
+urano.mp3
+neptuno.mp3
+
+IMPORTANTE:
+- Usa exactamente estos nombres, en minúsculas y sin acentos.
+- No cambies la extensión .mp3.
+- Al tocar un planeta, se detiene la canción anterior y comienza la correspondiente.
+- La música se repite automáticamente hasta que el usuario la pause o cambie de planeta.

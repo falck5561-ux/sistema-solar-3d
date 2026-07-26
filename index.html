@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#02040a" />
+    <meta name="description" content="Un viaje interactivo por el Sistema Solar con música, planetas y una sorpresa en la Tierra." />
+    <meta name="application-name" content="Sistema Solar 3D" />
+    <meta name="apple-mobile-web-app-title" content="Sistema Solar 3D" />
+    <link rel="icon" type="image/png" href="%BASE_URL%icono.png" />
+    <link rel="shortcut icon" href="%BASE_URL%icono.png" />
+    <link rel="apple-touch-icon" href="%BASE_URL%icono.png" />
+    <title>Un pequeño universo para ti</title>
+  </head>
+  <body>
+    <div id="app" aria-hidden="true"></div>
+    <div class="scene-overlay" aria-hidden="true">
+      <div class="cinematic-vignette"></div>
+      <div class="chromatic-glow"></div>
+      <div class="interface-noise"></div>
+      <div class="earth-aurora"></div>
+      <div class="cinema-bars"><i></i><i></i></div>
+      <div id="warp-lines" class="warp-lines"></div>
+      <div id="camera-flash" class="camera-flash"></div>
+    </div>
+
+    <div id="intro" class="intro-screen">
+      <div class="intro-stars" aria-hidden="true"></div>
+      <div class="intro-constellation" aria-hidden="true">
+        <i></i><i></i><i></i><i></i><i></i><i></i><span></span><b></b>
+      </div>
+      <div class="intro-shell">
+        <section class="intro-content">
+          <div id="intro-recipient" class="intro-recipient"><span>✦</span> Para alguien especial</div>
+          <p id="intro-eyebrow" class="eyebrow">UN PEQUEÑO UNIVERSO PARA TI</p>
+          <h1><span id="intro-title-one">Canciones, planetas</span><em id="intro-title-two">y una sorpresa</em></h1>
+          <p id="intro-copy" class="intro-copy">Elegí una canción para cada mundo. Tú solo toca un planeta, escucha y quédate un ratito. En la Tierra hay algo bonito esperándote.</p>
+          <div id="intro-stats" class="intro-stats" aria-label="Detalles de la experiencia">
+            <span>9 mundos</span><span>9 canciones</span><span>1 sorpresa</span>
+          </div>
+          <button id="enter-experience" class="launch-button" type="button">
+            <span id="intro-button-label">Empezar el viaje</span><i aria-hidden="true">→</i>
+          </button>
+          <small id="intro-note">Sin prisa. Empieza por el planeta que quieras.</small>
+          <p id="intro-playful" class="intro-playful">No es una declaración interplanetaria… solo quería hacerte algo bonito.</p>
+        </section>
+
+        <aside class="intro-preview" aria-hidden="true">
+          <div class="preview-orbit preview-orbit-one"><i></i><b></b></div>
+          <div class="preview-orbit preview-orbit-two"><i></i><b></b></div>
+          <div class="preview-earth">
+            <span class="preview-earth-glow"></span>
+            <i></i><i></i><b></b>
+          </div>
+          <div class="preview-track preview-track-one"><span>♪</span><div><small>TIERRA</small><strong>Tu canción aquí</strong></div></div>
+          <div class="preview-track preview-track-two"><span>✧</span><div><small>SORPRESA</small><strong>Ballet luciérnaga</strong></div></div>
+          <div class="preview-caption"><span></span> Toca un mundo y deja que suene</div>
+        </aside>
+      </div>
+    </div>
+
+    <header class="topbar glass">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"><i></i></div>
+        <div>
+          <p class="eyebrow">VIAJE ENTRE ESTRELLAS</p>
+          <h2>UNIVERSO <span>/ Sistema Solar</span></h2>
+        </div>
+      </div>
+
+      <div class="top-telemetry" aria-label="Telemetría de la simulación">
+        <div><small>TIEMPO SIMULADO</small><strong id="simulation-time">Día 0</strong></div>
+        <i></i>
+        <div><small>OBJETIVO</small><strong id="telemetry-body">Sol</strong></div>
+      </div>
+
+      <div class="topbar-actions">
+        <button id="cinema-mode" class="utility-button" type="button" aria-label="Activar modo cinematográfico">
+          <span aria-hidden="true">◉</span><b>Cine</b>
+        </button>
+        <div id="audio-indicator" class="audio-indicator" aria-live="polite">
+          <span class="audio-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span id="audio-indicator-text">Música lista</span>
+        </div>
+        <button id="toggle-panel" class="icon-button" type="button" aria-label="Mostrar u ocultar controles" aria-expanded="true">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <aside id="control-panel" class="panel glass" aria-label="Controles de la simulación">
+      <div class="panel-drag-handle" aria-hidden="true"></div>
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">TU RECORRIDO</p>
+          <h2>Elige un mundo</h2>
+        </div>
+        <button id="close-panel" class="close-button" type="button" aria-label="Cerrar controles">×</button>
+      </div>
+
+      <section>
+        <label for="planet-select">Destino</label>
+        <div class="select-wrap">
+          <select id="planet-select" aria-label="Seleccionar planeta"></select>
+          <span aria-hidden="true">⌄</span>
+        </div>
+      </section>
+
+      <section class="button-grid camera-grid">
+        <button id="play-pause" class="primary" type="button"><i>❚❚</i><span>Pausar</span></button>
+        <button id="auto-tour" type="button"><i>✦</i><span>Recorrido</span></button>
+        <button id="orbit-camera" type="button"><i>◎</i><span>Orbitar</span></button>
+        <button id="reset-camera" type="button"><i>⌂</i><span>Vista general</span></button>
+      </section>
+
+      <section class="audio-control">
+        <div class="section-title-row">
+          <div>
+            <p class="section-kicker">BANDA SONORA</p>
+            <strong id="audio-file-name">sol.mp3</strong>
+          </div>
+          <span id="audio-state" class="state-pill">Preparado</span>
+        </div>
+
+        <div class="audio-player">
+          <button id="audio-toggle" class="audio-primary" type="button" aria-label="Reproducir música">▶</button>
+          <div class="audio-meta">
+            <strong id="audio-track-title">Sonido del Sol</strong>
+            <div class="audio-progress"><i id="audio-progress-bar"></i></div>
+          </div>
+          <button id="audio-restart" type="button" aria-label="Reiniciar canción">↻</button>
+        </div>
+
+        <div class="label-row compact-row">
+          <label for="volume">Volumen</label>
+          <output id="volume-value">55%</output>
+        </div>
+        <input id="volume" type="range" min="0" max="100" step="1" value="55" />
+      </section>
+
+      <section>
+        <div class="label-row">
+          <label for="speed">Velocidad orbital</label>
+          <output id="speed-value">12 días/s</output>
+        </div>
+        <input id="speed" type="range" min="0" max="80" step="1" value="12" />
+        <div class="speed-presets" aria-label="Velocidades rápidas">
+          <button type="button" data-speed="1">1×</button>
+          <button type="button" data-speed="12" class="active">12×</button>
+          <button type="button" data-speed="35">35×</button>
+          <button type="button" data-speed="80">80×</button>
+        </div>
+      </section>
+
+      <section>
+        <div class="label-row">
+          <label for="planet-scale">Escala visual</label>
+          <output id="scale-value">1.00×</output>
+        </div>
+        <input id="planet-scale" type="range" min="0.55" max="2.1" step="0.05" value="1" />
+      </section>
+
+      <section class="toggles">
+        <label><input id="show-orbits" type="checkbox" checked /><span class="switch"></span><b>Órbitas</b></label>
+        <label><input id="show-labels" type="checkbox" checked /><span class="switch"></span><b>Etiquetas</b></label>
+        <label><input id="show-asteroids" type="checkbox" checked /><span class="switch"></span><b>Asteroides</b></label>
+        <label><input id="show-bloom" type="checkbox" checked /><span class="switch"></span><b>Brillo suave</b></label>
+      </section>
+
+
+      <section class="earth-only earth-ballet-control">
+        <div class="earth-feature-heading">
+          <span class="ballet-symbol" aria-hidden="true">✧</span>
+          <div><p class="section-kicker">EXCLUSIVO DE LA TIERRA</p><strong>Ballet luciérnaga</strong></div>
+        </div>
+        <button class="ballet-toggle active" data-ballet-toggle type="button" aria-pressed="true">
+          <i aria-hidden="true">&#9672;</i><span data-ballet-label>Animaci&oacute;n activa</span>
+        </button>
+      </section>
+
+      <section class="quality-row">
+        <div><span>Calidad adaptativa</span><small id="quality-label">Alta</small></div>
+        <button id="quality-toggle" type="button">AUTO</button>
+      </section>
+
+      <button id="fullscreen" class="fullscreen-button" type="button">⛶ Pantalla completa</button>
+    </aside>
+
+    <aside id="info-card" class="info-card glass" aria-live="polite">
+      <div class="info-card-accent" aria-hidden="true"></div>
+      <div class="info-card-header">
+        <div class="info-card-title">
+          <p id="body-type" class="eyebrow"></p>
+          <h2 id="body-name"></h2>
+        </div>
+        <div class="info-card-header-actions">
+          <div class="orbit-badge" aria-hidden="true"><i></i><b></b></div>
+          <button id="info-card-toggle" class="info-card-toggle" type="button" aria-label="Mostrar detalles del planeta" aria-expanded="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 9.5 12 15l5.5-5.5"/></svg>
+          </button>
+        </div>
+      </div>
+      <p id="body-description"></p>
+      <dl>
+        <div><dt>Diámetro</dt><dd id="body-diameter"></dd></div>
+        <div><dt>Distancia al Sol</dt><dd id="body-distance"></dd></div>
+        <div><dt>Duración del año</dt><dd id="body-year"></dd></div>
+        <div><dt>Temperatura media</dt><dd id="body-temperature"></dd></div>
+      </dl>
+      <div class="fact-strip">
+        <div><small>GRAVEDAD</small><strong id="body-gravity">274 m/s²</strong></div>
+        <div><small>DÍA</small><strong id="body-day">25–35 días</strong></div>
+        <div><small>LUNAS</small><strong id="body-moons">8 planetas</strong></div>
+      </div>
+
+      <div class="earth-only earth-ballet-card">
+        <div class="firefly-ballerina-mark" aria-hidden="true">
+          <svg viewBox="0 0 96 96" role="img">
+            <defs>
+              <linearGradient id="wingGlow" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#dff7d4" stop-opacity=".82"/>
+                <stop offset="1" stop-color="#6fbf9c" stop-opacity=".12"/>
+              </linearGradient>
+              <linearGradient id="dressGlow" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#83d6a8"/>
+                <stop offset=".58" stop-color="#2d735e"/>
+                <stop offset="1" stop-color="#d8c66a"/>
+              </linearGradient>
+            </defs>
+            <ellipse class="mark-halo" cx="48" cy="80" rx="31" ry="8"/>
+            <path class="mark-wing mark-wing-left" d="M43 36C28 19 12 22 17 40c4 14 17 18 27 12"/>
+            <path class="mark-wing mark-wing-right" d="M53 36c15-17 31-14 26 4-4 14-17 18-27 12"/>
+            <circle class="mark-head" cx="48" cy="24" r="7"/>
+            <path class="mark-hair" d="M42 22c1-8 12-10 15-1-4-3-9-4-15 1Z"/>
+            <path class="mark-body" d="M45 31c-4 8-5 17-1 24h8c4-7 3-16-1-24Z"/>
+            <path class="mark-skirt" d="M44 50c-10 7-14 14-15 21 12 5 26 5 38 0-2-8-7-15-15-21Z"/>
+            <path class="mark-arm mark-arm-left" d="M44 35c-9 2-15 8-21 15"/>
+            <path class="mark-arm mark-arm-right" d="M52 35c8 0 15-6 20-13"/>
+            <path class="mark-leg mark-leg-left" d="M46 68c-2 7-6 13-12 18"/>
+            <path class="mark-leg mark-leg-right" d="M52 68c4 6 10 10 18 12"/>
+            <circle class="mark-light light-one" cx="19" cy="18" r="2.5"/>
+            <circle class="mark-light light-two" cx="79" cy="26" r="2"/>
+            <circle class="mark-light light-three" cx="73" cy="70" r="2.2"/>
+          </svg>
+        </div>
+        <div class="ballet-card-copy">
+          <small>EXPERIENCIA DE LA TIERRA</small>
+          <strong>Danza luci&eacute;rnaga</strong>
+          <p>Alas suaves, vestido verde y destellos c&aacute;lidos que acompa&ntilde;an la canci&oacute;n.</p>
+        </div>
+        <button class="ballet-toggle ballet-card-action active" data-ballet-toggle data-ballet-compact="true" type="button" aria-pressed="true">
+          <span class="ballet-action-dot" aria-hidden="true"></span><span data-ballet-label>Ocultar</span>
+        </button>
+      </div>
+
+      <button id="earth-note-trigger" class="earth-only earth-note-trigger" type="button" aria-label="Abrir la nota especial de la Tierra">
+        <span aria-hidden="true">✦</span>
+        <div><small>UNA NOTA EN LA TIERRA</small><strong>Hay algo para ti</strong></div>
+        <i aria-hidden="true">→</i>
+      </button>
+
+      <div id="earth-note" class="earth-only earth-note" aria-live="polite">
+        <div class="earth-note-star" aria-hidden="true">✦</div>
+        <div>
+          <small id="earth-note-title">UNA PEQUEÑA NOTA PARA TI</small>
+          <strong id="earth-note-message">Entre tantos planetas, la Tierra sigue siendo mi favorita… quizá porque aquí estás tú.</strong>
+          <p id="earth-note-signature">Hecho con canciones, estrellas y un poquito de intención.</p>
+        </div>
+      </div>
+
+      <div class="music-now">
+        <span class="music-icon" aria-hidden="true">♪</span>
+        <div><small>Banda sonora asignada</small><strong id="body-audio-file">sol.mp3</strong></div>
+        <button id="info-audio-button" type="button" aria-label="Reproducir música del planeta">▶</button>
+      </div>
+    </aside>
+
+
+    <button id="exit-cinema" class="exit-cinema" type="button" aria-label="Salir del modo cinematográfico">
+      <span aria-hidden="true">×</span>
+      <div><small>MODO CINE</small><strong>Salir</strong></div>
+      <kbd>Esc</kbd>
+    </button>
+
+    <div id="cinema-caption" class="cinema-caption" aria-live="polite">
+      <small>ENCUADRE CINEMATOGRÁFICO</small>
+      <strong id="cinema-body-name">Sol</strong>
+      <span id="cinema-body-subtitle">Exploración orbital</span>
+    </div>
+
+    <div id="focus-reticle" class="focus-reticle" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><span></span>
+    </div>
+
+    <div id="hover-card" class="hover-card glass" aria-hidden="true">
+      <small>SELECCIONAR</small><strong id="hover-name">Tierra</strong>
+    </div>
+
+    <div id="labels-layer" aria-hidden="true"></div>
+
+    <nav id="planet-dock" class="planet-dock glass" aria-label="Navegación rápida por planetas"></nav>
+
+    <div id="help" class="help glass">
+      <span><kbd>Arrastra</kbd> Rotar</span>
+      <span><kbd>Rueda</kbd> Zoom</span>
+      <span><kbd>Espacio</kbd> Pausa</span>
+      <span><kbd>B</kbd> Ballet</span>
+    </div>
+
+    <div id="mobile-gesture-hint" class="mobile-gesture-hint glass" aria-hidden="true">
+      <span aria-hidden="true">↔</span> Desliza para cambiar de planeta
+    </div>
+
+    <div id="wish-star" class="wish-star" aria-hidden="true"><i></i></div>
+
+    <div id="toast" class="toast glass" role="status" aria-live="polite"></div>
+
+    <div id="loading" class="loading-screen">
+      <div class="loading-orbit"><i></i><i></i></div>
+      <div class="loading-copy"><p>Preparando las estrellas</p><span><b id="loading-progress"></b></span></div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
