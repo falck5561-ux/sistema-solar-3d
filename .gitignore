@@ -1,7 +1,5 @@
-@(
-"node_modules/"
-"dist/"
-".netlify/"
-".env"
-".DS_Store"
-) | Set-Content -Encoding ascii .gitignore
+node_modules/
+dist/
+.netlify/
+.env
+.DS_Store
